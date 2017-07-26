@@ -1,7 +1,14 @@
 package com.cdhorn.atm;
 
 
-import java.sql.*;
+import com.cdhorn.atm.helpers.DatabaseManager;
+import com.cdhorn.atm.model.Account;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
 
 public class Main {
 
@@ -9,17 +16,24 @@ public class Main {
         Class.forName("org.sqlite.JDBC");
 
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:bankaccounts.db")) {
+            DatabaseManager dbm = new DatabaseManager(connection);
+            dbm.dropBankAccountsTable();
+            dbm.createBankAccountsTable();
 
-            Statement statement = connection.createStatement();
+            Statement statement = dbm.getStatement();
 
-//            statement.executeUpdate("INSERT INTO bankaccounts (name, balance) VALUES ('Christina', 100.50)");
-            ResultSet rs = statement.executeQuery("SELECT * FROM bankaccounts");
+            Account christinaAccount = new Account("Christina", 150, statement);
+            christinaAccount.save();
 
-            while (rs.next()) {
-                String name = rs.getString("name");
-                double balance = rs.getDouble("balance");
+            Account samiAccount = new Account("Sami", 250.50, statement);
+            samiAccount.save();
 
-                System.out.printf("%s %s", name, balance);
+            Account seraAccount = new Account("Sera", 250.50, statement);
+            seraAccount.save();
+
+            List<Account> results = Account.findAll(dbm);
+            for (Account account : results) {
+                System.out.println(account);
             }
 
         } catch (SQLException ex) {

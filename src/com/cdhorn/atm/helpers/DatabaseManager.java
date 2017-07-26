@@ -2,6 +2,7 @@ package com.cdhorn.atm.helpers;
 
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -25,4 +26,11 @@ public class DatabaseManager {
         statement.executeUpdate("CREATE TABLE bankaccounts (id INTEGER PRIMARY KEY, name STRING, balance DOUBLE, " +
                 "amountIn DOUBLE, amountOut DOUBLE)");
     }
-}
+
+    public ResultSet findAll(String table) throws SQLException {
+        String sqlQuery = String.format("SELECT * FROM bankaccounts");
+        ResultSet rs = statement.executeQuery(sqlQuery);
+        return rs;
+        }
+    }
+
