@@ -21,13 +21,13 @@ public class Main {
 
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:bankaccounts.db")) {
             DatabaseManager dbm = new DatabaseManager(connection);
-            dbm.dropBankAccountsTable();
+//            dbm.dropBankAccountsTable();
+//            dbm.createBankAccountsTable();
 
             System.out.println("==============================================================================");
             System.out.println("Welcome to Global Bank ATM. Please let me know your name:");
             Scanner scanner = new Scanner(System.in);
             name = scanner.next();
-//            dbm.createBankAccountsTable();
 
             atmMachine(dbm, name);
 //
@@ -69,22 +69,24 @@ public class Main {
 
             case 1:
                 System.out.println("Please enter the amount of your opening deposit.");
-                double balance = scanner.nextDouble();
-                new Account(name, balance, dbm.getStatement()).save();
+                double amount = scanner.nextDouble();
+                double balance = amount;
+                Account openNew = new Account(amount, balance, dbm.getStatement());
+                openNew.save();
                 System.out.println("Thank you. Your account has been opened and you have a balance of $" + balance);
                 break;
             case 2:
-                Account.getBalance(dbm, name);
+                Account.getBalance(dbm);
                 break;
             case 3:
                 System.out.println("How much would you like to withdraw?");
                 double withdraw = scanner.nextDouble();
-                Account.withdrawFunds(dbm, name, withdraw);
+                Account.withdrawFunds(dbm, withdraw);
                 break;
             case 4:
                 System.out.println("How much would you like to deposit?");
                 double deposit = scanner.nextDouble();
-                Account.depositFunds(dbm, name, deposit);
+                Account.depositFunds(dbm, deposit);
                 break;
             case 5:
                 System.out.println("Thank you for banking with Global Bank " + name + ", have a nice day!");

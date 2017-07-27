@@ -23,19 +23,20 @@ public class DatabaseManager {
     }
 
     public void createBankAccountsTable() throws SQLException {
-        statement.executeUpdate("CREATE TABLE bankaccounts (id INTEGER PRIMARY KEY, name STRING, balance DOUBLE)");
+        statement.executeUpdate("CREATE TABLE bankaccounts (id INTEGER PRIMARY KEY, amount DOUBLE, " +
+                "balance DOUBLE)");
     }
 
     public ResultSet findAll(String table) throws SQLException {
-        String sqlQuery = String.format("SELECT * FROM bankaccounts");
+        String sqlQuery = String.format("SELECT * FROM bankaccounts ORDER BY id DESC");
         ResultSet rs = statement.executeQuery(sqlQuery);
         return rs;
     }
-    public ResultSet findByName(String name) throws SQLException {
-        String formattedSql = String.format("SELECT * FROM 'bankaccounts' WHERE name = '%s'", name);
-        ResultSet rs = statement.executeQuery(formattedSql);
-        return rs;
-    }
+//    public ResultSet findByName(String name) throws SQLException {
+//        String formattedSql = String.format("SELECT * FROM 'bankaccounts' WHERE name = '%s'", name);
+//        ResultSet rs = statement.executeQuery(formattedSql);
+//        return rs;
+//    }
 
 
 }
