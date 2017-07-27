@@ -14,6 +14,7 @@ public class Account {
     private String name;
     private double balance;
     private Statement statement;
+    private int id;
 
     public Account(String name, double balance, Statement statement) {
         this.name = name;
@@ -21,10 +22,22 @@ public class Account {
         this.statement = statement;
     }
 
+    public Account(String name, double balance, Statement statement, int id) {
+        this(name, balance, statement);
+        this.id = id;
+    }
+
     public void save() throws SQLException {
          String formattedSql = String.format("INSERT INTO bankaccounts (name, balance) VALUES ('%s', %s)", name, balance);
         statement.executeUpdate(formattedSql);
     }
+
+    public void updateAccount() throws SQLException {
+        String formattedSql = String.format("UPDATE bankaccounts SET name = '%s', balance = %s WHERE id = %s",
+                name, balance, id);
+        statement.executeUpdate(formattedSql);
+    }
+
 
     public static List<Account> findAll(DatabaseManager dbm) throws SQLException {
         ResultSet rs = dbm.findAll("bankaccounts");
@@ -39,6 +52,7 @@ public class Account {
              }
          return tempCollection;
     }
+
     public static List<Account> findByName(DatabaseManager dbm, String name) throws SQLException {
         ResultSet rs = dbm.findByName(name);
         Statement tempStatement = dbm.getStatement();
@@ -69,6 +83,7 @@ public class Account {
         Statement tempStatement = dbm.getStatement();
 
         double newBalance = balance + funds;
+
         List<Account> tempCollection = new ArrayList<>();
 
         Account tempStat = new Account(nameRequest, newBalance, tempStatement);
@@ -79,7 +94,7 @@ public class Account {
 
     public static double withdrawFunds(DatabaseManager dbm, String name, double funds) throws SQLException {
         ResultSet rs = dbm.findByName(name);
-        String nameRequest = rs.getNString("name");
+        String nameRequest = rs.getString("name");
         double balance = rs.getDouble("balance");
 
         Statement tempStatement = dbm.getStatement();

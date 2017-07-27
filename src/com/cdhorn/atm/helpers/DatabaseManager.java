@@ -23,8 +23,7 @@ public class DatabaseManager {
     }
 
     public void createBankAccountsTable() throws SQLException {
-        statement.executeUpdate("CREATE TABLE bankaccounts (id INTEGER PRIMARY KEY, name STRING, balance DOUBLE, " +
-                "amountIn DOUBLE, amountOut DOUBLE)");
+        statement.executeUpdate("CREATE TABLE bankaccounts (id INTEGER PRIMARY KEY, name STRING, balance DOUBLE)");
     }
 
     public ResultSet findAll(String table) throws SQLException {
