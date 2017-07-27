@@ -31,6 +31,13 @@ public class DatabaseManager {
         String sqlQuery = String.format("SELECT * FROM bankaccounts");
         ResultSet rs = statement.executeQuery(sqlQuery);
         return rs;
-        }
     }
+    public ResultSet findByName(String name) throws SQLException {
+        String formattedSql = String.format("SELECT * FROM 'bankaccounts' WHERE name = '%s'", name);
+        ResultSet rs = statement.executeQuery(formattedSql);
+        return rs;
+    }
+
+
+}
 
