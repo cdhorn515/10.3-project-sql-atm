@@ -22,10 +22,12 @@ public class DatabaseManager {
         statement.executeUpdate("DROP TABLE IF EXISTS bankaccounts");
     }
 
+
     public void createBankAccountsTable() throws SQLException {
         statement.executeUpdate("CREATE TABLE bankaccounts (id INTEGER PRIMARY KEY, amount DOUBLE, " +
                 "balance DOUBLE)");
     }
+
 
     public ResultSet findAll(String table) throws SQLException {
         String sqlQuery = String.format("SELECT * FROM bankaccounts ORDER BY id DESC");

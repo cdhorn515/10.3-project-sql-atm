@@ -30,22 +30,6 @@ public class Main {
             name = scanner.next();
 
             atmMachine(dbm, name);
-//
-//            Statement statement = dbm.getStatement();
-//
-//            Account christinaAccount = new Account("Christina", 150, statement);
-//            christinaAccount.save();
-//
-//            Account samiAccount = new Account("Sami", 250.50, statement);
-//            samiAccount.save();
-//
-//            Account seraAccount = new Account("Sera", 250.50, statement);
-//            seraAccount.save();
-//
-//            List<Account> results = Account.findAll(dbm);
-//            for (Account account : results) {
-//                System.out.println(account);
-//            }
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -68,6 +52,9 @@ public class Main {
         switch(choice){
 
             case 1:
+                dbm.dropBankAccountsTable();
+                dbm.createBankAccountsTable();
+
                 System.out.println("Please enter the amount of your opening deposit.");
                 double amount = scanner.nextDouble();
                 double balance = amount;
